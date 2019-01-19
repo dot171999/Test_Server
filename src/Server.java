@@ -4,13 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 class Server implements Runnable{
-    static ServerSocket ss;
-    static Socket s;
     static DataInputStream din;
     static int xx=0,yy=0;
 
@@ -19,9 +16,9 @@ class Server implements Runnable{
         try{
             Image cursor = ImageIO.read(this.getClass().getResource("cursor.png"));
             Robot r=new Robot();
-            ss=new ServerSocket(3333);
+            ServerSocket ss=new ServerSocket(3333);
             System.out.println("1");
-            s=ss.accept();//establishes connection
+            Socket s=ss.accept();//establishes connection
             System.out.println("2");
 
             DataOutputStream dis=new DataOutputStream(s.getOutputStream());
@@ -34,7 +31,7 @@ class Server implements Runnable{
             BufferedImage image;
             ByteArrayOutputStream baos;
 
-            while(!Main.close_loop){
+            while(!Main_Frame.close_loop){
 
                 image=r.createScreenCapture(new Rectangle(xx,yy,800,600));
                 System.out.println("3");
@@ -62,7 +59,7 @@ class Server implements Runnable{
             dis.close();
             ss.close();
         }catch(Exception e){
-            System.out.println(e);
+            System.out.print(e);
 
         }
     }
