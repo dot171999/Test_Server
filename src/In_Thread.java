@@ -1,3 +1,6 @@
+import com.dot.ss.PacketModel;
+
+import java.awt.*;
 import java.io.IOException;
 
 public class In_Thread implements Runnable {
@@ -6,12 +9,17 @@ public class In_Thread implements Runnable {
 
         while(true){
             try {
-                Server.xx=(int)Server.din.readFloat();
-                Server.yy=(int) Server.din.readFloat();
-            } catch (IOException e) {
-                e.printStackTrace();
+                PacketModel packetModel=(PacketModel) Server.din.readObject();
+                if(packetModel.getKey().equals("ZOOM")){
+                    Server.ZoomScale=packetModel.getFloat();
+                    System.out.println(packetModel.getFloat());
+                }
+                else if(packetModel.getKey().equals("CURSOR")){
+                    new MouseCursor(packetModel.getX(),packetModel.getY());
+                }
+            } catch (IOException | ClassNotFoundException | AWTException e) {
+                    e.printStackTrace();
             }
         }
-
     }
 }

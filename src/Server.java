@@ -4,13 +4,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 class Server implements Runnable{
-    static DataInputStream din;
-    static int xx=0,yy=0;
-
+    static ObjectInputStream din;
+    static float ZoomScale=1;
     @Override
     public void run() {
         try{
@@ -22,7 +22,7 @@ class Server implements Runnable{
             System.out.println("2");
 
             DataOutputStream dis=new DataOutputStream(s.getOutputStream());
-            din=new DataInputStream(s.getInputStream());
+            din=new ObjectInputStream(s.getInputStream());
 
             new Thread(new In_Thread()).start();
 
@@ -32,9 +32,8 @@ class Server implements Runnable{
             ByteArrayOutputStream baos;
 
             while(!Main_Frame.close_loop){
-
-                image=r.createScreenCapture(new Rectangle(xx,yy,800,600));
-                System.out.println("3");
+                image=r.createScreenCapture(new Rectangle(0,0,(int)(683*ZoomScale),(int)(384*ZoomScale)));
+                //System.out.println("3");
 
                 baos = new ByteArrayOutputStream();
 
